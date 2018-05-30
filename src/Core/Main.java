@@ -14,15 +14,15 @@ public class Main
 		RenderUtil.clear(155);
 		
 		
-		Camera c = new Camera(new Vector2f(0, 0), 0, (float)Math.PI/2.0f);
+		Camera c = new Camera(new Vector2f(0, 0), 0, Util.toRadians(70), 3.5f);
 		
 		RenderEngine renderEngine = new RenderEngine(c);
 		
-		Wall w = new Wall(new Vector2f(1, 0), 0, new Line(new Vector2f(0, -1), new Vector2f(0, 1)));
+		Wall w = new Wall(new Vector2f(1, 0), 0, new Line(new Vector2f(0, -1), new Vector2f(0, 1)), new Bitmap("./res/bricks.jpg"), new Vector2f(0, 0), new Vector2f(1, 1));
 		
-		ArrayList<GameObject> walls = new ArrayList<GameObject>();
-		
-		walls.add(w);
+		ArrayList<GameObject> walls = LevelLoader.loadLevel("./res/testLevel.dlt");//new ArrayList<GameObject>();
+//		
+//		walls.add(w);
 		
 		double lastTime = System.nanoTime() / 1000000000d;
 		
@@ -42,9 +42,8 @@ public class Main
 				frametime = 0.0;
 			}
 			
+			c.update((float)passedTime, window.getInput());
 			window.update();
-			
-			c.rotate(1.0f/60.0f);
 			
 			RenderUtil.clear(0);
 			

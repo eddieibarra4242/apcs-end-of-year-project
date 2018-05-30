@@ -25,6 +25,11 @@ public class Line
 	{
 		return new Ray(l1, l0.sub(l1));
 	}
+	
+	public float length() 
+	{
+		return l1.sub(l0).length();
+	}
 
 	public Vector2f getL0() {
 		return l0;

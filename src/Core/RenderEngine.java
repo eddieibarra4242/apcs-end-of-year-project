@@ -22,14 +22,21 @@ public class RenderEngine
 			Vector2f direction = new Matrix3f().initRotation((float)Math.atan(px) + camera.getRot()).mul(new Vector2f(1, 0), 0);
 			Ray ray = new Ray(camera.getPosition(), direction);
 			
-			float[] inters = new float[objects.size()];
+			Vector2f intersectionPoint = null;
+			Wall hitWall = null;
 			
-			for(int i = 0; i < inters.length; i++)
+			float shortest = 1001;
+			
+			for(int i = 0; i < objects.size(); i++)
 			{
-				inters[i] = objects.get(i).intersect(ray);
+				float dist = objects.get(i).intersect(ray);
+				
+				if(dist < shortest && dist > 0)
+				{
+					intersectionPoint = ray.getPoint(dist);
+					hitWall = (Wall) objects.get(i);
+				}
 			}
-			
-			Vector2f intersectionPoint = PhysicsUtil.nearestIntersection(ray, inters);
 			
 			if(intersectionPoint != null)
 			{	
@@ -42,7 +49,16 @@ public class RenderEngine
 					
 					if(ndcy < check && ndcy > -check)
 					{	
-						RenderUtil.drawPixel(x, y, 255, 255, 0, 0);
+						int texWidth = hitWall.getTexture().getWidth();
+						int texHeight = hitWall.getTexture().getHeight();
+						
+						float yRange = hitWall.getMaxTexCoord().getY() - hitWall.getMinTexCoord().getY();
+						float xRange = hitWall.getMaxTexCoord().getX() - hitWall.getMinTexCoord().getX();
+						
+						float texy = ((ndcy / (2.0f * check)) + 0.5f) * yRange + hitWall.getMinTexCoord().getY();
+						float texx = (intersectionPoint.sub(hitWall.getWall().getL0()).length() / hitWall.getWall().length()) * xRange + hitWall.getMinTexCoord().getX();
+						
+						RenderUtil.copyPixel(hitWall.getTexture(), (int)(texx * texWidth), (int)(texy * texHeight), x, y);
 					}
 					else
 					{

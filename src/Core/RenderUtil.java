@@ -31,6 +31,11 @@ public class RenderUtil
 		frameBuffer.drawPixel(x, y, a, r, g, b);
 	}
 	
+	public static void copyPixel(Bitmap texture, int srcx, int srcy, int destx, int desty)
+	{
+		frameBuffer.copyPixel(texture, srcx, srcy, destx, desty);;
+	}
+	
 	public static void draw()
 	{
 		if(frameBuffer.hasChanged())

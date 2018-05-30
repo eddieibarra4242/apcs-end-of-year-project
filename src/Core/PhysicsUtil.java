@@ -1,23 +1,7 @@
 package Core;
 
 public class PhysicsUtil 
-{
-	public static Vector2f nearestIntersection(Ray r, float[] intersections)
-	{
-		Vector2f intersectionPoint = null;
-		float shortestLength = 1001;
-		
-		for(int i = 0; i < intersections.length; i++)
-		{
-			if(intersections[i] >= 0.1f && intersections[i] < shortestLength)
-			{
-				intersectionPoint = r.getPoint(intersections[i]);
-			}
-		}
-		
-		return intersectionPoint;
-	}
-	
+{	
 	public static Vector2f intersectLine(Line l1, Line l2)
 	{
 		Vector2f line1 = l1.getL1().sub(l1.getL0());

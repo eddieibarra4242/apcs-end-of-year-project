@@ -2,6 +2,7 @@ package Core;
 
 public class Vector2f 
 {
+	public static final Vector2f zeroVector = new Vector2f(0, 0);
 	private float x;
 	private float y;
 	
