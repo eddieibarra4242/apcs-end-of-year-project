@@ -29,7 +29,19 @@ public class Vector2f
 	
 	public Vector2f normalized()
 	{
-		return div(length());
+		float len = length();
+		
+		if(len == 0)
+		{
+			return new Vector2f(0, 0);
+		}
+		
+		return div(len);
+	}
+	
+	public Vector2f getPerpendicular(int mul)
+	{
+		return new Vector2f(-y, x).mul(mul);
 	}
 	
 	public Vector2f add(float r)

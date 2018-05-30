@@ -1,5 +1,7 @@
 package Core;
 
+import java.util.ArrayList;
+
 import Input.IInput;
 
 public class Camera 
@@ -18,26 +20,28 @@ public class Camera
 		this.sensitivity = mouseSensitivity;
 	}
 	
-	public void update(float delta, IInput input)
+	public void update(float delta, IInput input, ArrayList<GameObject> objs)
 	{
+		Vector2f moveDir = Vector2f.zeroVector;
+		
 		if(input.getKey(IInput.KEY_W))
 		{
-			move(getForward(), delta);
+			moveDir = moveDir.add(getForward());
 		}
 		
 		if(input.getKey(IInput.KEY_S))
 		{
-			move(getForward(), -delta);
+			moveDir = moveDir.sub(getForward());
 		}
 		
 		if(input.getKey(IInput.KEY_A))
 		{
-			move(getRight(), -delta);
+			moveDir = moveDir.sub(getRight());
 		}
 		
 		if(input.getKey(IInput.KEY_D))
 		{
-			move(getRight(), delta);
+			moveDir = moveDir.add(getRight());
 		}
 		
 		if(input.getMouse(IInput.MOUSE_BUTTON_MIDDLE))
@@ -64,6 +68,15 @@ public class Camera
 			if(rotY)
 				input.setCursorPosition(Vector2f.zeroVector);
 		}
+		
+		moveDir = moveDir.normalized();
+		
+		for(int i = 0; i < objs.size(); i++)
+		{
+			PhysicsUtil.interSphereline(position, 0.3f, ((Wall)objs.get(i)).getWall(), moveDir);
+		}
+		
+		move(moveDir, delta);
 	}
 	
 	public Vector2f getForward()

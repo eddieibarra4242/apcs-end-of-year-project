@@ -35,6 +35,7 @@ public class RenderEngine
 				{
 					intersectionPoint = ray.getPoint(dist);
 					hitWall = (Wall) objects.get(i);
+					shortest = dist;
 				}
 			}
 			

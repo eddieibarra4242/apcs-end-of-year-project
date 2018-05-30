@@ -9,7 +9,7 @@ public class Main
 	{
 		Window window = new Window(800, 600, titleFormat);
 		
-		RenderUtil.init(new Bitmap(800, 600));
+		RenderUtil.init(new Bitmap(640, 480));
 		
 		RenderUtil.clear(155);
 		
@@ -18,11 +18,7 @@ public class Main
 		
 		RenderEngine renderEngine = new RenderEngine(c);
 		
-		Wall w = new Wall(new Vector2f(1, 0), 0, new Line(new Vector2f(0, -1), new Vector2f(0, 1)), new Bitmap("./res/bricks.jpg"), new Vector2f(0, 0), new Vector2f(1, 1));
-		
-		ArrayList<GameObject> walls = LevelLoader.loadLevel("./res/testLevel.dlt");//new ArrayList<GameObject>();
-//		
-//		walls.add(w);
+		ArrayList<GameObject> walls = LevelLoader.loadLevel("./res/l.dlt");
 		
 		double lastTime = System.nanoTime() / 1000000000d;
 		
@@ -42,7 +38,7 @@ public class Main
 				frametime = 0.0;
 			}
 			
-			c.update((float)passedTime, window.getInput());
+			c.update((float)passedTime, window.getInput(), walls);
 			window.update();
 			
 			RenderUtil.clear(0);
